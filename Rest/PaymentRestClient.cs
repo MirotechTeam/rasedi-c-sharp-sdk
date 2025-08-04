@@ -205,7 +205,6 @@ public class PaymentRestClient
         //return (ICancelPaymentResponse)(await CallAsync<ICancelPaymentResponseBody>($"/cancel/{referenceCode}", HttpMethod.Patch, null)).Body;
     }
 
-
     //** Verify
     public async Task<IVerifyPaymentResponse> VerifyAsync(IVerifyPayload payload)
     {

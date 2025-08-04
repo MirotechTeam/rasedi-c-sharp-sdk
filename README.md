@@ -1,13 +1,15 @@
 ﻿# C#.NET SDK
 A lightweight C# SDK for interacting with the Miropay Payment API, built on .NET Core for fast HTTP calls and private key-based request signing.
 
-#Installation
+# Installation
 ===============================
+dotnet add package MiroPaySDK --version 1.0.0
+
 
 # Usage
 using MiroPaySDK.Rest;
+using MiroPaySDK.Contracts;
 using MiroPaySDK.Rest.Enums;
-using MiroPaySDK.Rest.Interfaces;
 
 
 var client = new PaymentRestClient("privateKey", "secret");
@@ -49,30 +51,30 @@ Parameters:
 
 Returns:
 
-await CallAsync<ICreatePaymentResponse>(requestBody: new
-        {
-            amount = payload.Amount,
-            gateways = payload.Gateways,
-            title = payload.Title,
-            description = payload.Description,
-            redirectUrl = payload.RedirectUrl,
-            collectFeeFromCustomer = payload.CollectFeeFromCustomer,
-            collectCustomerEmail = payload.CollectCustomerEmail,
-            collectCustomerPhoneNumber = payload.CollectCustomerPhoneNumber
-        }, path: "/create", method: HttpMethod.Post);
-        return new CreatePaymentResponse
-        {
-            StatusCode = response.StatusCode,
-            Body = response.Body,
-            Headers = response.Headers
-        };
+IHttpResponse<CreatePaymentResponseBody> response = await CallAsync<CreatePaymentResponseBody>(requestBody: new
+{
+    amount = payload.Amount,
+    gateways = payload.Gateways,
+    title = payload.Title,
+    description = payload.Description,
+    redirectUrl = payload.RedirectUrl,
+    collectFeeFromCustomer = payload.CollectFeeFromCustomer,
+    collectCustomerEmail = payload.CollectCustomerEmail,
+    collectCustomerPhoneNumber = payload.CollectCustomerPhoneNumber
+}, path: "/create", method: HttpMethod.Post);
+return new CreatePaymentResponse
+{
+    StatusCode = response.StatusCode,
+    Body = response.Body,
+    Headers = response.Headers
+};
 
 
 Example:
 
 await client.CreatePaymentAsync({
   amount: "1000",
-  gateways: [GATEWAY.FIB],
+  gateways: [GATEWAY.FIB, GATEWAY.ZAIN],
   title: "Test",
   description: "Desc",
   callbackUrl: "https://google.com",
@@ -81,24 +83,19 @@ await client.CreatePaymentAsync({
   collectCustomerPhoneNumber: false,
 });
 
-Task<IHttpResponse<IPaymentDetailsResponse>> GetPaymentByIdAsync(string referenceCode)
+
+Task<IPaymentDetailsResponse> GetPaymentByIdAsync(string referenceCode)
 Checks the status of a payment.
 
 Returns:
 
-await CallAsync<PaymentDetailsResponseBody>($"/status/{referenceCode}", HttpMethod.Get, null);
-await {
-  body: {
-          string ReferenceCode;
-          string Amount;
-          string? PaidVia;
-          string? PaidAt;
-          string? CallbackUrl;
-          PAYMENT_STATUS Status;
-          string? PayoutAmount;
-  };
-         int StatusCode;
-         IDictionary<string, string[]> Headers;
+IHttpResponse<PaymentDetailsResponseBody> response = await CallAsync<PaymentDetailsResponseBody>($"/status/{referenceCode}", HttpMethod.Get, null);
+
+return new PaymentDetailsResponse
+{
+    StatusCode = 200,
+    Body = response.Body,
+    Headers = { }
 };
 
 Example:
@@ -107,7 +104,7 @@ var status = await client.GetPaymentByIdAsync("your-reference-code")
 Console.WriteLine(status.body.status);
 
 
-async Task<ICancelPaymentResponse> CancelPaymentAsync(string referenceCode)
+Task<ICancelPaymentResponse> CancelPaymentAsync(string referenceCode)
 Cancels an existing payment.
 
 Example:
@@ -115,20 +112,15 @@ Example:
 await clint.CancelPaymentAsync(string referenceCode)
 
 Returns:
-await CallAsync<CancelPaymentResponseBody>($"/cancel/{referenceCode}", HttpMethod.Patch, null)
-await{
-  body: {
-          string ReferenceCode;
-          string Amount;
-          string? PaidVia;
-          string? PaidAt;
-          string CallbackUrl;
-          PAYMENT_STATUS Status;
-          string? PayoutAmount;
-  };
-          int StatusCode;
-          IDictionary<string, string[]> Headers;
+IHttpResponse<CancelPaymentResponseBody> response = await CallAsync<CancelPaymentResponseBody>($"/cancel/{referenceCode}", HttpMethod.Patch, null);
+
+return new CancelPaymentResponse
+{
+    StatusCode = response.StatusCode,
+    Body = response.Body,
+    Headers = response.Headers
 };
+
 
 # Types
 public enum GATEWAY
@@ -139,7 +131,7 @@ public enum GATEWAY
     [EnumMember(Value = "FIB")]
     FIB
 }
-}
+
 
 public enum PAYMENT_STATUS
 {
