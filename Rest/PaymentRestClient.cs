@@ -29,50 +29,41 @@ public class PaymentRestClient
 
     private readonly string _baseUrl = MiroPay.Rest.Constants.Constants.ApiBaseUrl;
 
-    private readonly bool _isTest = true;
+    private  bool _isTest = true;
 
     private List<IPublicKeyResponseBody> _publicKeys = new ();
 
 
-    // ======================== Constructor =========================== //
-    public PaymentRestClient(string key, string secret)
+    // ===================================== Constructor ================================== //
+    /// <summary>
+    /// Creating new client instance for MiroPay Payment API,
+    /// Args: key = privateKey,
+    /// secret = secretKey,
+    /// isTest = true = test mode, false = live mode.
+    /// </summary>
+    public PaymentRestClient(string key, string secret, bool isTest = true)
     {
         this._httpClient = new HttpClient
         {
             Timeout = TimeSpan.FromSeconds(10.0)
         };
+
         this._authenticator = new PrivateKeyAuthenticator(key, secret);
-        this._isTest = CheckIsTest(secret);
+        this._isTest = isTest;
     }
 
 
-    // Check the secret if it is test or not
-    private bool CheckIsTest(string secret)
-    {
-        return secret.Contains("test", StringComparison.OrdinalIgnoreCase);
-    }
-
-    //A method to trim baseUrl if needed
-    private string TrimBaseUrl(string? hostName)
-    {
-        if (string.IsNullOrWhiteSpace(hostName))
-        {
-            return _baseUrl;
-        }
-
-        if (!hostName.StartsWith("https://"))
-        {
-            hostName = ((!hostName.StartsWith("http://")) ? ("https://" + hostName) : hostName.Replace("http://", "https://"));
-        }
-
-        return hostName.TrimEnd('/');
-    }
-
-
-    // ================================= Basic Method ======================================= //
+    // ===================================== Basic Method ======================================= //
     //** Calling API
     private async Task<IHttpResponse<T>> CallAsync<T>(string path, HttpMethod method, object? requestBody)
     {
+        if (string.IsNullOrWhiteSpace(path))
+            throw new ArgumentException("Path cannot be null or empty", nameof(path));
+
+        if (method == null)
+            throw new ArgumentNullException(nameof(method), "HTTP method cannot be null");
+
+
         // Step 1: Compose relative and full URL
         string v = $"/v{_upstreamVersion}";
         string relativeUrl = $"{v}/payment/rest/{(_isTest ? "test" : "live")}{path}";
@@ -89,12 +80,6 @@ public class PaymentRestClient
 
         if (requestBody != null)
         {
-            //var json = JsonSerializer.Serialize(requestBody, new JsonSerializerOptions
-            //{
-            //    Converters = { new EnumMemberJsonConverter<GATEWAY>() },
-            //    PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-            //});
-
             var json = JsonSerializer.Serialize(requestBody, new JsonSerializerOptions
             {
                 Converters = { new JsonStringEnumConverter() },
@@ -143,7 +128,6 @@ public class PaymentRestClient
             Headers = response.Headers
         };
 
-        //return await CallAsync<List<IPublicKeyResponseBody>>("/get-public-keys", HttpMethod.Get, null);
     }
 
 
@@ -167,6 +151,7 @@ public class PaymentRestClient
     //** Create new payment
     public async Task<ICreatePaymentResponse> CreatePaymentAsync(ICreatePayment payload)
     {
+
         IHttpResponse<CreatePaymentResponseBody> response = await CallAsync<CreatePaymentResponseBody>(requestBody: new
         {
             amount = payload.Amount,
@@ -201,8 +186,6 @@ public class PaymentRestClient
             Body = response.Body,
             Headers = response.Headers
         };
-
-        //return (ICancelPaymentResponse)(await CallAsync<ICancelPaymentResponseBody>($"/cancel/{referenceCode}", HttpMethod.Patch, null)).Body;
     }
 
     //** Verify
@@ -294,45 +277,5 @@ public class PaymentRestClient
         }
 
         throw new ArgumentException("Invalid PEM format");
-    }
-}
-
-
-
-/*This is a helper class to handle enum serialization and deserialization
- If you use this:     PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-while serializing enums, you can use this converter to handle EnumMember attributes properly. */
-
-public class EnumMemberJsonConverter<T> : JsonConverter<T> where T : struct, Enum
-{
-    public override T Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-    {
-        var value = reader.GetString();
-        foreach (var field in typeof(T).GetFields())
-        {
-            if (Attribute.GetCustomAttribute(field, typeof(EnumMemberAttribute)) is EnumMemberAttribute attr)
-            {
-                if (attr.Value == value)
-                    return (T)field.GetValue(null)!;
-            }
-            else if (field.Name == value)
-            {
-                return (T)field.GetValue(null)!;
-            }
-        }
-        throw new JsonException($"Unknown value '{value}' for enum '{typeof(T)}'");
-    }
-
-    public override void Write(Utf8JsonWriter writer, T value, JsonSerializerOptions options)
-    {
-        var field = typeof(T).GetField(value.ToString());
-        if (field != null && Attribute.GetCustomAttribute(field, typeof(EnumMemberAttribute)) is EnumMemberAttribute attr)
-        {
-            writer.WriteStringValue(attr.Value);
-        }
-        else
-        {
-            writer.WriteStringValue(value.ToString());
-        }
     }
 }

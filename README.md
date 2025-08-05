@@ -1,80 +1,110 @@
 ﻿# C#.NET SDK
-A lightweight C# SDK for interacting with the Miropay Payment API, built on .NET Core for fast HTTP calls and private key-based request signing.
 
-# Installation
-===============================
-dotnet add package MiroPaySDK --version 1.0.0
+A lightweight SDK for interacting with the Miropay Payment API, built on top of [HttpClient in System.Net.Http and System.Net.Http.Headers] for fast, native HTTP calls and private key-based request signing.
 
+---
 
-# Usage
+## 📦 Installation
+
+```bash
+dotnet add package MiroPaySDK --version x.x.x
+```
+
+---
+
+## 🚀 Usage
+
+```C#
 using MiroPaySDK.Rest;
-using MiroPaySDK.Contracts;
 using MiroPaySDK.Rest.Enums;
+using MiroPaySDK.Rest.Interfaces;
 
+var client = new PaymentRestClient(privateKey, secretKey, isTest);
+```
 
-var client = new PaymentRestClient("privateKey", "secret");
+> **Note:**  
+> The switch between sandbox and production mode will be manually throw the `isTest` boolean value `(true = sandbox, false = production mode)`.
 
-Note:
-The secret should contain "test" or "live" to auto-switch between sandbox and production mode.
+---
 
-# Authentication
+## 🔐 Authentication
+
 The SDK uses a private key and a secret to sign every request with HMAC. Signature logic is handled internally.
 
- Example
-string pvKey = `-----BEGIN ENCRYPTED PRIVATE KEY-----
+---
+
+## 🧪 Example
+
+```C#
+string privateKey = `-----BEGIN ENCRYPTED PRIVATE KEY-----
 ...
 -----END ENCRYPTED PRIVATE KEY-----`;
 
-string secret = "live_xxx..."; // or "test_xxx..."
+string secretKey = "live_xxx..."; // or "test_xxx..."
 
-var client = new PaymentRestClient(pvKey, secret);
+bool isTest = false // or true.
 
-# API Reference
-new PaymentRestClient(string key, string secret)
+var client = new PaymentRestClient(privateKey, secretKey, isTest);
+```
+
+---
+
+## 📘 API Reference
+
+#### `new PaymentRestClient(string privateKey, string secretKey)`
+
 Creates a new client instance.
 
-createPayment(ICreatePayment payload): CreatePayment : ICreatePayment
+---
+
+#### `async Task<ICreatePaymentResponse> CreatePaymentAsync(ICreatePayment payload)`
+
 Creates a new payment session.
 
-Parameters:
+**Hint:** The `amount` parameter cannot be a decimal value.
 
+**Parameters:**
+
+```C#
 {
-    public string Amount { get; set; }            // e.g. Price as string, e.g. "1000"
-    public IList<GATEWAY> Gateways { get; set; }  // e.g. [GATEWAY.FIB, GATEWAY.ZAIN]
-    public string Title { get; set; }             // Max 63 characters
-    public string Description { get; set; }       // Max 255 characters
-    public string RedirectUrl { get; set; }       // CallbackUrl or RedirectURL
-    public bool CollectFeeFromCustomer { get; set; }
-    public bool CollectCustomerEmail { get; set; }
-    public bool CollectCustomerPhoneNumber { get; set; }
+    string amount; // e.g. "1000"
+    GATEWAY[] gateways; // e.g. [GATEWAY.ZAIN, GATEWAY.FIB]
+    string title;
+    string description;
+    string callbackUrl;
+    bool collectFeeFromCustomer;
+    bool collectCustomerEmail;
+    bool collectCustomerPhoneNumber;
 }
+```
 
-Returns:
+**Returns:**
 
-IHttpResponse<CreatePaymentResponseBody> response = await CallAsync<CreatePaymentResponseBody>(requestBody: new
-{
-    amount = payload.Amount,
-    gateways = payload.Gateways,
-    title = payload.Title,
-    description = payload.Description,
-    redirectUrl = payload.RedirectUrl,
-    collectFeeFromCustomer = payload.CollectFeeFromCustomer,
-    collectCustomerEmail = payload.CollectCustomerEmail,
-    collectCustomerPhoneNumber = payload.CollectCustomerPhoneNumber
-}, path: "/create", method: HttpMethod.Post);
-return new CreatePaymentResponse
-{
-    StatusCode = response.StatusCode,
-    Body = response.Body,
-    Headers = response.Headers
-};
+```C#
+<CreatePaymentResponseBody>(Body:
+  {
+    string ReferenceCode,
+    string Amount,
+    string? PaidVia,
+    string? PaidAt,
+    string? CallbackUrl,
+    PAYMENT_STATUS Status, 
+    string? PayoutAmount
+  });
+  return new CreatePaymentResponse
+    {
+      StatusCode = response.StatusCode,
+      Body = response.Body,
+      Headers = response.Headers
+    };
+```
 
+**Example:**
 
-Example:
-
+```C#
 await client.CreatePaymentAsync({
   amount: "1000",
-  gateways: [GATEWAY.FIB, GATEWAY.ZAIN],
+  gateways: [GATEWAY.FIB],
   title: "Test",
   description: "Desc",
   callbackUrl: "https://google.com",
@@ -82,47 +112,82 @@ await client.CreatePaymentAsync({
   collectCustomerEmail: false,
   collectCustomerPhoneNumber: false,
 });
+```
 
+---
 
-Task<IPaymentDetailsResponse> GetPaymentByIdAsync(string referenceCode)
+#### `async Task<IPaymentDetailsResponse> GetPaymentByIdAsync(string referenceCode)`
+
 Checks the status of a payment.
 
-Returns:
+**Returns:**
 
-IHttpResponse<PaymentDetailsResponseBody> response = await CallAsync<PaymentDetailsResponseBody>($"/status/{referenceCode}", HttpMethod.Get, null);
+```C#
+<CreatePaymentResponseBody>(Body:
+  {
+    string ReferenceCode,
+    string Amount,
+    string? PaidVia,
+    string? PaidAt,
+    string? CallbackUrl,
+    PAYMENT_STATUS Status, 
+    string? PayoutAmount
 
-return new PaymentDetailsResponse
-{
-    StatusCode = 200,
-    Body = response.Body,
-    Headers = { }
-};
-
-Example:
-
-var status = await client.GetPaymentByIdAsync("your-reference-code")
-Console.WriteLine(status.body.status);
-
-
-Task<ICancelPaymentResponse> CancelPaymentAsync(string referenceCode)
-Cancels an existing payment.
-
-Example:
-
-await clint.CancelPaymentAsync(string referenceCode)
-
-Returns:
-IHttpResponse<CancelPaymentResponseBody> response = await CallAsync<CancelPaymentResponseBody>($"/cancel/{referenceCode}", HttpMethod.Patch, null);
-
-return new CancelPaymentResponse
-{
+  });
+  return new CreatePaymentResponse
+  {
     StatusCode = response.StatusCode,
     Body = response.Body,
     Headers = response.Headers
-};
+  };
+```
 
+**Example:**
 
-# Types
+```C#
+var status = await client.GetPaymentByIdAsync("your-reference-code");
+Console.WriteLine(status.body.status);
+```
+
+---
+
+#### `async Task<ICancelPaymentResponse> CancelPaymentAsync(string referenceCode)`
+
+Cancels an existing payment.
+
+**Example:**
+
+```C#
+await client.CancelPaymentAsync("your-reference-code");
+```
+
+**Returns:**
+
+```C#
+<CancelPaymentResponseBody>(Body:
+  {
+    string ReferenceCode,
+    string Amount,
+    string? PaidVia,
+    string? PaidAt,
+    string? CallbackUrl,
+    PAYMENT_STATUS Status, 
+    string? PayoutAmount
+
+  });
+  return new CreatePaymentResponse
+  {
+    StatusCode = response.StatusCode,
+    Body = response.Body,
+    Headers = response.Headers
+  };
+```
+
+---
+
+## 🏷️ Types
+
+```C#
 public enum GATEWAY
 {
     [EnumMember(Value = "ZAIN")]
@@ -131,7 +196,6 @@ public enum GATEWAY
     [EnumMember(Value = "FIB")]
     FIB
 }
-
 
 public enum PAYMENT_STATUS
 {
@@ -153,12 +217,10 @@ public enum PAYMENT_STATUS
     [EnumMember(Value = "SETTLED")]
     SETTLED
 }
+```
 
-# Need Help?
+---
+
+## 💬 Need Help?
+
 Contact the payment provider or open an issue on the internal GitHub repo.
-
-
-# License
-
-
-# Contributing

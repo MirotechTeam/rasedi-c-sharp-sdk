@@ -6,10 +6,12 @@ namespace MiroPaySDK.Contracts
     // ======================== Create Payment ======================= //
     public interface ICreatePayment
     {
+        
         /// <summary>
         /// Price as string, e.g. "1000"
         /// </summary>
         public string Amount { get; set; }
+
 
         /// <summary>
         /// List of allowed gateways; empty array means all are allowed
@@ -107,8 +109,6 @@ namespace MiroPaySDK.Contracts
         public required string Amount { get; set; }
         public string? PaidVia { get; set; }
         public string? PaidAt { get; set; }
-
-        //public required string CallbackUrl { get; set; }
         public  string? CallbackUrl { get; set; }
         public PAYMENT_STATUS Status { get; set; }
         public string? PayoutAmount { get; set; }
@@ -164,10 +164,6 @@ namespace MiroPaySDK.Contracts
         public string Id { get; set; }
         public string Key { get; set; }
     }
-
-    //public interface IPublicKeysResponse : IHttpResponse<IPublicKeyResponseBody[]>
-    //{
-    //}
 
     public interface IPublicKeysResponse : IHttpResponse<List<IPublicKeyResponseBody>>
     {
