@@ -16,7 +16,7 @@ public class PrivateKeyAuthenticator : IAuthenticator
     private string _encryptedPrivateKey;
     private string _secret;
 
-    //Cached parsed private key
+    //Cache parsed private key
     private readonly Ed25519PrivateKeyParameters _privateKey;
 
 

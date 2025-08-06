@@ -7,7 +7,7 @@
     <Nullable>enable</Nullable>
 
     <PackageId>MiroPaySDK</PackageId>
-    <Version>1.0.0</Version>
+    <Version>1.0.1</Version>
     <Authors>MiroPay</Authors>
     <Company>MiroTech</Company>
     <Description>Official C_Sharp SDK for MiroPay Payment Gateway.</Description>
@@ -15,6 +15,7 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/MirotechTeam/miropay-c-sharp-sdk</RepositoryUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageIcon>icon.png</PackageIcon>
     </PropertyGroup>
     
 
@@ -24,6 +25,7 @@
     <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="8.13.0" />
     <PackageReference Include="NSec.Cryptography" Version="25.4.0" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.13.0" />
+    <None Include="icon.png" Pack="true" PackagePath="\" />
   </ItemGroup>
 
 </Project>
