@@ -18,6 +18,7 @@ dotnet add package MiroPaySDK --version x.x.x
 using MiroPaySDK.Rest;
 using MiroPaySDK.Rest.Enums;
 using MiroPaySDK.Rest.Interfaces;
+global using MiroPaySDK.Exceptions;
 
 var client = new PaymentRestClient(privateKey, secretKey, isTest);
 ```
