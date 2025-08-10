@@ -69,7 +69,7 @@ Creates a new payment session.
 ```C#
 {
     string amount; // e.g. "1000"
-    GATEWAY[] gateways; // e.g. [GATEWAY.ZAIN, GATEWAY.FIB]
+    GateWays[] gateways; // e.g. [GateWays.ZAIN, GateWays.FIB]
     string title;
     string description;
     string callbackUrl;
@@ -89,7 +89,7 @@ Creates a new payment session.
     string? PaidVia,
     string? PaidAt,
     string? CallbackUrl,
-    PAYMENT_STATUS Status, 
+    PaymentStatuses Status, 
     string? PayoutAmount
   });
   return new CreatePaymentResponse
@@ -105,7 +105,7 @@ Creates a new payment session.
 ```C#
 await client.CreatePaymentAsync({
   amount: "1000",
-  gateways: [GATEWAY.FIB],
+  gateways: [GateWays.FIB],
   title: "Test",
   description: "Desc",
   callbackUrl: "https://google.com",
@@ -131,7 +131,7 @@ Checks the status of a payment.
     string? PaidVia,
     string? PaidAt,
     string? CallbackUrl,
-    PAYMENT_STATUS Status, 
+    PaymentStatuses Status, 
     string? PayoutAmount
 
   });
@@ -172,7 +172,7 @@ await client.CancelPaymentAsync("your-reference-code");
     string? PaidVia,
     string? PaidAt,
     string? CallbackUrl,
-    PAYMENT_STATUS Status, 
+    PaymentStatuses Status, 
     string? PayoutAmount
 
   });
@@ -189,7 +189,7 @@ await client.CancelPaymentAsync("your-reference-code");
 ## 🏷️ Types
 
 ```C#
-public enum GATEWAY
+public enum GateWays
 {
     [EnumMember(Value = "ZAIN")]
     ZAIN,
@@ -198,7 +198,7 @@ public enum GATEWAY
     FIB
 }
 
-public enum PAYMENT_STATUS
+public enum PaymentStatuses
 {
     [EnumMember(Value = "TIMED_OUT")]
     TIMED_OUT,
