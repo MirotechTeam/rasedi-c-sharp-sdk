@@ -18,7 +18,7 @@ dotnet add package MiroPaySDK --version x.x.x
 using MiroPaySDK.Rest;
 using MiroPaySDK.Rest.Enums;
 using MiroPaySDK.Rest.Interfaces;
-global using MiroPaySDK.Exceptions;
+using MiroPaySDK.Exceptions;
 
 var client = new PaymentRestClient(privateKey, secretKey, isTest);
 ```
@@ -182,6 +182,56 @@ await client.CancelPaymentAsync("your-reference-code");
     Body = response.Body,
     Headers = response.Headers
   };
+```
+
+---
+#### `Using MiroPaySDK.Exception to catch different type of exception`
+
+The exceptions help you to catch more specific and error-related issues.
+
+**Example:**
+
+```C#
+try
+  {
+      // 1. Try to get a public key by ID
+      ...................................
+
+      // 2. Validate payload content
+      ...................................
+
+      // 3. More SDK calls...............
+  }
+  catch (PublicKeyNotFoundException ex)
+  {
+      Console.WriteLine("Handle missing key specifically: " + ex.Message);
+  }
+  catch (InvalidPayloadException ex)
+  {
+      Console.WriteLine("Handle invalid payload specifically: " + ex.Message);
+  }
+  catch (JwtValidationException ex)
+  {
+      Console.WriteLine("Handle JWT validation errors: " + ex.Message);
+  }
+  catch (PayloadDeserializationException ex)
+  {
+      Console.WriteLine("Handle deserialization errors: " + ex.Message);
+  }
+  catch (PemFormatException ex)
+  {
+      Console.WriteLine("Handle PEM format errors: " + ex.Message);
+  }
+  catch (MiroPayException ex)
+  {
+      // Catch any other SDK-related errors not explicitly caught above
+      Console.WriteLine("General MiroPay SDK error: " + ex.Message);
+  }
+  catch (Exception ex)
+  {
+      // Catch unexpected errors not related to SDK
+      Console.WriteLine("Unexpected error: " + ex.Message);
+  }
 ```
 
 ---
