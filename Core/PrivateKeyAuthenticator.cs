@@ -15,8 +15,8 @@ namespace MiroPaySDK.Core
 {
     public class PrivateKeyAuthenticator : IAuthenticator
     {
-        private string _encryptedPrivateKey;
-        private string _secret;
+        private readonly string _encryptedPrivateKey;
+        private readonly string _secret;
 
 
         // ============================== Constructor ============================== //

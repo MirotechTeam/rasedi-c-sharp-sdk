@@ -210,11 +210,9 @@ public class PaymentRestClient
                 throw new PublicKeyNotFoundException(payload.KeyId);
         }
 
-        if (payload.Content is null)
-            throw new ArgumentNullException(nameof(payload.Content), "Payload content is required.");
+        if (payload is null)
+            throw new ArgumentNullException(nameof(payload), "Payload is required.");
 
-        if (string.IsNullOrWhiteSpace(payload.Content))
-            throw new InvalidPayloadException("Payload content cannot be null, empty, or whitespace.");
 
         using var ecdsa = LoadECDsaPublicKey(targetKey.Key);
 
@@ -242,8 +240,7 @@ public class PaymentRestClient
 
             var result = JsonSerializer.Deserialize<IVerifyPaymentResponseBody>(jwtToken.RawPayload);
             if (result == null)
-                if (result == null)
-                    throw new PayloadDeserializationException("Failed to deserialize JWT payload into IVerifyPaymentResponseBody.");
+                throw new PayloadDeserializationException("Failed to deserialize JWT payload into IVerifyPaymentResponseBody.");
 
 
             return (IVerifyPaymentResponse)result;
