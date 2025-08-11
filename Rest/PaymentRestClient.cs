@@ -254,7 +254,7 @@ public class PaymentRestClient
     /// <summary>
     /// Load an ECDsa public key from PEM-formatted string.
     /// </summary>
-    private ECDsa LoadECDsaPublicKey(string pem)
+    private static ECDsa LoadECDsaPublicKey(string pem)
     {
         var publicKeyBytes = ParsePemToBytes(pem);
         var ecdsa = ECDsa.Create();
