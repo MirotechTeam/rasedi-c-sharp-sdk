@@ -2,7 +2,7 @@
 
 namespace MiroPaySDK.Rest.Enums
 {
-    public enum PAYMENT_STATUS
+    public enum PaymentStatuses
     {
         [EnumMember(Value = "TIMED_OUT")]
         TIMED_OUT,

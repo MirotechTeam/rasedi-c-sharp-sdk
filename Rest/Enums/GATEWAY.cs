@@ -2,7 +2,7 @@
 
 namespace MiroPaySDK.Rest.Enums
 {
-    public enum GATEWAY
+    public enum GateWays
     {
         [EnumMember(Value = "ZAIN")]
         ZAIN,

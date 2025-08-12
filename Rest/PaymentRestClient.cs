@@ -16,6 +16,9 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using MiroPaySDK.Core;
+using MiroPay.Rest.Constants;
+using MiroPaySDK.Exceptions;
 
 namespace MiroPaySDK.Rest;
 
@@ -27,9 +30,9 @@ public class PaymentRestClient
 
     private readonly PrivateKeyAuthenticator _authenticator;
 
-    private readonly string _baseUrl = MiroPay.Rest.Constants.Constants.ApiBaseUrl;
+    private readonly string _baseUrl;
 
-    private  bool _isTest = true;
+    private readonly bool _isTest;
 
     private List<IPublicKeyResponseBody> _publicKeys = new ();
 
@@ -50,6 +53,8 @@ public class PaymentRestClient
 
         this._authenticator = new PrivateKeyAuthenticator(key, secret);
         this._isTest = isTest;
+
+        _baseUrl = MiroPay.Rest.Constants.Constants.ApiBaseUrl;
     }
 
 
@@ -112,7 +117,7 @@ public class PaymentRestClient
         }
         catch (JsonException ex)
         {
-            throw new Exception($"Failed to parse JSON: {ex.Message}", ex);
+            throw new JsonException($"Failed to parse JSON: ", ex);
         }
     }
 
@@ -202,11 +207,12 @@ public class PaymentRestClient
             _publicKeys = (await GetPublicKeysAsync()).Body;
             targetKey = _publicKeys.Find(k => k.Id == payload.KeyId);
             if (targetKey == null)
-                throw new Exception("Internal server error");
+                throw new PublicKeyNotFoundException(payload.KeyId);
         }
 
-        if (string.IsNullOrWhiteSpace(payload.Content))
-            throw new Exception("Internal server error");
+        if (payload is null)
+            throw new ArgumentNullException(nameof(payload), "Payload is required.");
+
 
         using var ecdsa = LoadECDsaPublicKey(targetKey.Key);
 
@@ -229,24 +235,26 @@ public class PaymentRestClient
 
             var jwtToken = validatedToken as JwtSecurityToken;
             if (jwtToken == null)
-                throw new Exception("Invalid JWT token");
+                throw new InvalidPayloadException("The validated token is not a valid JWT.");
+
 
             var result = JsonSerializer.Deserialize<IVerifyPaymentResponseBody>(jwtToken.RawPayload);
             if (result == null)
-                throw new Exception("Failed to deserialize JWT payload");
+                throw new PayloadDeserializationException("Failed to deserialize JWT payload into IVerifyPaymentResponseBody.");
+
 
             return (IVerifyPaymentResponse)result;
         }
         catch (SecurityTokenException ex)
         {
-            throw new Exception("JWT validation failed", ex);
+            throw new JwtValidationException("JWT validation failed.", ex);
         }
     }
 
     /// <summary>
     /// Load an ECDsa public key from PEM-formatted string.
     /// </summary>
-    private ECDsa LoadECDsaPublicKey(string pem)
+    private static ECDsa LoadECDsaPublicKey(string pem)
     {
         var publicKeyBytes = ParsePemToBytes(pem);
         var ecdsa = ECDsa.Create();
@@ -258,7 +266,7 @@ public class PaymentRestClient
     /// Parses PEM string to raw byte array.
     /// Assumes standard "-----BEGIN PUBLIC KEY-----" PEM format.
     /// </summary>
-    private byte[] ParsePemToBytes(string pem)
+    private static byte[] ParsePemToBytes(string pem)
     {
         const string header = "-----BEGIN PUBLIC KEY-----";
         const string footer = "-----END PUBLIC KEY-----";
@@ -276,6 +284,6 @@ public class PaymentRestClient
             }
         }
 
-        throw new ArgumentException("Invalid PEM format");
+        throw new PemFormatException("Invalid PEM format.");
     }
 }

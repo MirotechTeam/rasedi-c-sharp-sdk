@@ -16,7 +16,7 @@ namespace MiroPaySDK.Contracts
         /// <summary>
         /// List of allowed gateways; empty array means all are allowed
         /// </summary>
-        public IList<GATEWAY> Gateways { get; set; }
+        public IList<GateWays> Gateways { get; set; }
 
         /// <summary>
         /// Max 63 characters
@@ -47,7 +47,7 @@ namespace MiroPaySDK.Contracts
         public string? PaidVia { get; set; }
         public string? PaidAt { get; set; }
         public string RedirectUrl { get; set; }
-        public PAYMENT_STATUS Status { get; set; }
+        public PaymentStatuses Status { get; set; }
         public string? PayoutAmount { get; set; }
     }
 
@@ -58,7 +58,7 @@ namespace MiroPaySDK.Contracts
         public string? PaidVia { get; set; }
         public string? PaidAt { get; set; }
         public string RedirectUrl { get; set; } = string.Empty;
-        public PAYMENT_STATUS Status { get; set; }
+        public PaymentStatuses Status { get; set; }
         public string? PayoutAmount { get; set; }
     }
     public interface ICreatePaymentResponse : IHttpResponse<ICreatePaymentResponseBody>
@@ -77,7 +77,7 @@ namespace MiroPaySDK.Contracts
     public class CreatePayment : ICreatePayment
     {
         public string Amount { get; set; } = string.Empty;
-        public IList<GATEWAY> Gateways { get; set; } = new List<GATEWAY>();
+        public IList<GateWays> Gateways { get; set; } = new List<GateWays>();
         public string Title { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public string RedirectUrl { get; set; } = string.Empty;
@@ -95,7 +95,7 @@ namespace MiroPaySDK.Contracts
         public string? PaidVia { get; set; }
         public string? PaidAt { get; set; }
         public string CallbackUrl { get; set; }
-        public PAYMENT_STATUS Status { get; set; }
+        public PaymentStatuses Status { get; set; }
         public string? PayoutAmount { get; set; }
     }
 
@@ -110,7 +110,7 @@ namespace MiroPaySDK.Contracts
         public string? PaidVia { get; set; }
         public string? PaidAt { get; set; }
         public  string? CallbackUrl { get; set; }
-        public PAYMENT_STATUS Status { get; set; }
+        public PaymentStatuses Status { get; set; }
         public string? PayoutAmount { get; set; }
     }
 
@@ -131,7 +131,7 @@ namespace MiroPaySDK.Contracts
         public string? PaidVia { get; set; }
         public string? PaidAt { get; set; }
         public string CallbackUrl { get; set; }
-        public PAYMENT_STATUS Status { get; set; }
+        public PaymentStatuses Status { get; set; }
         public string? PayoutAmount { get; set; }
     }
 
@@ -146,7 +146,7 @@ namespace MiroPaySDK.Contracts
         public string? PaidVia { get; set; }
         public string? PaidAt { get; set; }
         public string? CallbackUrl { get; set; }
-        public PAYMENT_STATUS Status { get; set; }
+        public PaymentStatuses Status { get; set; }
         public string? PayoutAmount { get; set; }
     }
 
@@ -195,7 +195,7 @@ namespace MiroPaySDK.Contracts
     public interface IVerifyPaymentResponseBody
     {
         public string ReferenceCode { get; set; }
-        public PAYMENT_STATUS Status { get; set; }
+        public PaymentStatuses Status { get; set; }
         public string? PayoutAmount { get; set; }
     }
 
@@ -213,7 +213,7 @@ namespace MiroPaySDK.Contracts
     public class VerifyPaymentResponseBody : IVerifyPaymentResponseBody
     {
         public string ReferenceCode { get; set; }
-        public PAYMENT_STATUS Status { get; set; }
+        public PaymentStatuses Status { get; set; }
         public string? PayoutAmount { get; set; }
     }
 }
