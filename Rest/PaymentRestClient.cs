@@ -42,9 +42,8 @@ public class PaymentRestClient
     /// Creating new client instance for MiroPay Payment API,
     /// Args: key = privateKey,
     /// secret = secretKey,
-    /// isTest = true = test mode, false = live mode.
     /// </summary>
-    public PaymentRestClient(string key, string secret, bool isTest = true)
+    public PaymentRestClient(string key, string secret)
     {
         this._httpClient = new HttpClient
         {
@@ -52,9 +51,15 @@ public class PaymentRestClient
         };
 
         this._authenticator = new PrivateKeyAuthenticator(key, secret);
-        this._isTest = isTest;
+
+        this._isTest = CheckIsTest(secret);
 
         _baseUrl = MiroPay.Rest.Constants.Constants.ApiBaseUrl;
+    }
+
+    private static bool CheckIsTest(string Secret)
+    {
+        return Secret.Contains("test");
     }
 
 

@@ -20,11 +20,11 @@ using MiroPaySDK.Rest.Enums;
 using MiroPaySDK.Rest.Interfaces;
 using MiroPaySDK.Exceptions;
 
-var client = new PaymentRestClient(privateKey, secretKey, isTest);
+var client = new PaymentRestClient(privateKey, secretKey);
 ```
 
 > **Note:**  
-> The switch between sandbox and production mode will be manually throw the `isTest` boolean value `(true = sandbox, false = production mode)`.
+> The switch between sandbox and production mode will be automatically based on (test) and (live) keyword inside secretKey `(test = sandbox mode, live = production mode)`.
 
 ---
 
@@ -43,9 +43,7 @@ string privateKey = `-----BEGIN ENCRYPTED PRIVATE KEY-----
 
 string secretKey = "live_xxx..."; // or "test_xxx..."
 
-bool isTest = false // or true.
-
-var client = new PaymentRestClient(privateKey, secretKey, isTest);
+var client = new PaymentRestClient(privateKey, secretKey);
 ```
 
 ---
