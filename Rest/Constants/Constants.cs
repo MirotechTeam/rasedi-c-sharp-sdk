@@ -8,6 +8,6 @@ namespace MiroPay.Rest.Constants
 {
     public static class Constants
     {
-        public const string ApiBaseUrl = "https://api-mp.tadilo.com";
+        public const string ApiBaseUrl = "https://api.pallawan.com";
     }
 }
