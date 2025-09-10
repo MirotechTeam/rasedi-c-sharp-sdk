@@ -2,12 +2,21 @@
 
 namespace MiroPaySDK.Rest.Enums
 {
-    public enum GATEWAY
+    public enum GateWays
     {
         [EnumMember(Value = "ZAIN")]
         ZAIN,
 
         [EnumMember(Value = "FIB")]
-        FIB
+        FIB,
+
+        [EnumMember(Value = "ASIA_PAY")]
+        ASIA_PAY,
+
+        [EnumMember(Value = "FAST_PAY")]
+        FAST_PAY,
+
+        [EnumMember(Value = "SUPER_QI")]
+        SUPER_QI
     }
 }

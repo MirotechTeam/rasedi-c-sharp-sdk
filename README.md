@@ -18,12 +18,13 @@ dotnet add package MiroPaySDK --version x.x.x
 using MiroPaySDK.Rest;
 using MiroPaySDK.Rest.Enums;
 using MiroPaySDK.Rest.Interfaces;
+using MiroPaySDK.Exceptions;
 
-var client = new PaymentRestClient(privateKey, secretKey, isTest);
+var client = new PaymentRestClient(privateKey, secretKey);
 ```
 
 > **Note:**  
-> The switch between sandbox and production mode will be manually throw the `isTest` boolean value `(true = sandbox, false = production mode)`.
+> The switch between sandbox and production mode will be automatically based on (test) and (live) keyword inside secretKey `(test = sandbox mode, live = production mode)`.
 
 ---
 
@@ -42,9 +43,7 @@ string privateKey = `-----BEGIN ENCRYPTED PRIVATE KEY-----
 
 string secretKey = "live_xxx..."; // or "test_xxx..."
 
-bool isTest = false // or true.
-
-var client = new PaymentRestClient(privateKey, secretKey, isTest);
+var client = new PaymentRestClient(privateKey, secretKey);
 ```
 
 ---
@@ -68,7 +67,7 @@ Creates a new payment session.
 ```C#
 {
     string amount; // e.g. "1000"
-    GATEWAY[] gateways; // e.g. [GATEWAY.ZAIN, GATEWAY.FIB]
+    GateWays[] gateways; // e.g. [GateWays.ZAIN, GateWays.FIB]
     string title;
     string description;
     string callbackUrl;
@@ -88,7 +87,7 @@ Creates a new payment session.
     string? PaidVia,
     string? PaidAt,
     string? CallbackUrl,
-    PAYMENT_STATUS Status, 
+    PaymentStatuses Status, 
     string? PayoutAmount
   });
   return new CreatePaymentResponse
@@ -104,7 +103,7 @@ Creates a new payment session.
 ```C#
 await client.CreatePaymentAsync({
   amount: "1000",
-  gateways: [GATEWAY.FIB],
+  gateways: [GateWays.FIB],
   title: "Test",
   description: "Desc",
   callbackUrl: "https://google.com",
@@ -130,7 +129,7 @@ Checks the status of a payment.
     string? PaidVia,
     string? PaidAt,
     string? CallbackUrl,
-    PAYMENT_STATUS Status, 
+    PaymentStatuses Status, 
     string? PayoutAmount
 
   });
@@ -171,7 +170,7 @@ await client.CancelPaymentAsync("your-reference-code");
     string? PaidVia,
     string? PaidAt,
     string? CallbackUrl,
-    PAYMENT_STATUS Status, 
+    PaymentStatuses Status, 
     string? PayoutAmount
 
   });
@@ -184,20 +183,80 @@ await client.CancelPaymentAsync("your-reference-code");
 ```
 
 ---
+#### `Using MiroPaySDK.Exception to catch different type of exception`
+
+The exceptions help you to catch more specific and error-related issues.
+
+**Example:**
+
+```C#
+try
+  {
+      // 1. Try to get a public key by ID
+      ...................................
+
+      // 2. Validate payload content
+      ...................................
+
+      // 3. More SDK calls...............
+  }
+  catch (PublicKeyNotFoundException ex)
+  {
+      Console.WriteLine("Handle missing key specifically: " + ex.Message);
+  }
+  catch (InvalidPayloadException ex)
+  {
+      Console.WriteLine("Handle invalid payload specifically: " + ex.Message);
+  }
+  catch (JwtValidationException ex)
+  {
+      Console.WriteLine("Handle JWT validation errors: " + ex.Message);
+  }
+  catch (PayloadDeserializationException ex)
+  {
+      Console.WriteLine("Handle deserialization errors: " + ex.Message);
+  }
+  catch (PemFormatException ex)
+  {
+      Console.WriteLine("Handle PEM format errors: " + ex.Message);
+  }
+  catch (MiroPayException ex)
+  {
+      // Catch any other SDK-related errors not explicitly caught above
+      Console.WriteLine("General MiroPay SDK error: " + ex.Message);
+  }
+  catch (Exception ex)
+  {
+      // Catch unexpected errors not related to SDK
+      Console.WriteLine("Unexpected error: " + ex.Message);
+  }
+```
+
+---
 
 ## 🏷️ Types
 
 ```C#
-public enum GATEWAY
+public enum GateWays
 {
     [EnumMember(Value = "ZAIN")]
     ZAIN,
 
     [EnumMember(Value = "FIB")]
-    FIB
-}
+    FIB,
 
-public enum PAYMENT_STATUS
+    [EnumMember(Value = "ASIA_PAY")]
+    ASIA_PAY,
+
+    [EnumMember(Value = "FAST_PAY")]
+    FAST_PAY,
+
+    [EnumMember(Value = "SUPER_QI")]
+    SUPER_QI
+}
+```
+```
+public enum PaymentStatuses
 {
     [EnumMember(Value = "TIMED_OUT")]
     TIMED_OUT,
@@ -224,3 +283,10 @@ public enum PAYMENT_STATUS
 ## 💬 Need Help?
 
 Contact the payment provider or open an issue on the internal GitHub repo.
+
+---
+## 🎯 Testing SDK
+
+You can test the SDK [ ➡️ here](https://github.com/MirotechTeam/miropay-c-sharp-sdk/tree/Master/Test).
+
+---

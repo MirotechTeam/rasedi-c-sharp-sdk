@@ -7,7 +7,7 @@
     <Nullable>enable</Nullable>
 
     <PackageId>MiroPaySDK</PackageId>
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
     <Authors>MiroPay</Authors>
     <Company>MiroTech</Company>
     <Description>Official C_Sharp SDK for MiroPay Payment Gateway.</Description>

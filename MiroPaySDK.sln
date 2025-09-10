@@ -5,6 +5,8 @@ VisualStudioVersion = 17.14.36221.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiroPay", "MiroPay.csproj", "{61739C27-AD63-4B72-8C2C-0BD1B0B4503F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TESTING", "..\TESTING\TESTING.csproj", "{643146A9-8FDD-E97C-12B5-C425F651EE45}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{61739C27-AD63-4B72-8C2C-0BD1B0B4503F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{61739C27-AD63-4B72-8C2C-0BD1B0B4503F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{61739C27-AD63-4B72-8C2C-0BD1B0B4503F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{643146A9-8FDD-E97C-12B5-C425F651EE45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{643146A9-8FDD-E97C-12B5-C425F651EE45}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{643146A9-8FDD-E97C-12B5-C425F651EE45}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{643146A9-8FDD-E97C-12B5-C425F651EE45}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
