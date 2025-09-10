@@ -17,10 +17,10 @@ namespace MiroPay.Test
             var request = new CreatePayment
             {
                 Amount = "2500",
-                Gateways = new[] { GateWays.FIB, GateWays.ZAIN },
+                Gateways = new[] { GateWays.FIB, GateWays.ZAIN, GateWays.ASIA_PAY, GateWays.FAST_PAY, GateWays.SUPER_QI },
                 Title = "Title ...",
                 Description = "Description ...",
-                RedirectUrl = "http://www.yoursite.com/sample",
+                RedirectUrl = "https://www.yoursite.com/sample",
                 CollectFeeFromCustomer = true,
                 CollectCustomerEmail = true,
                 CollectCustomerPhoneNumber = true,

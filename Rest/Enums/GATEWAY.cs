@@ -8,6 +8,15 @@ namespace MiroPaySDK.Rest.Enums
         ZAIN,
 
         [EnumMember(Value = "FIB")]
-        FIB
+        FIB,
+
+        [EnumMember(Value = "ASIA_PAY")]
+        ASIA_PAY,
+
+        [EnumMember(Value = "FAST_PAY")]
+        FAST_PAY,
+
+        [EnumMember(Value = "SUPER_QI")]
+        SUPER_QI
     }
 }

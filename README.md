@@ -243,9 +243,19 @@ public enum GateWays
     ZAIN,
 
     [EnumMember(Value = "FIB")]
-    FIB
-}
+    FIB,
 
+    [EnumMember(Value = "ASIA_PAY")]
+    ASIA_PAY,
+
+    [EnumMember(Value = "FAST_PAY")]
+    FAST_PAY,
+
+    [EnumMember(Value = "SUPER_QI")]
+    SUPER_QI
+}
+```
+```
 public enum PaymentStatuses
 {
     [EnumMember(Value = "TIMED_OUT")]
@@ -273,3 +283,10 @@ public enum PaymentStatuses
 ## 💬 Need Help?
 
 Contact the payment provider or open an issue on the internal GitHub repo.
+
+---
+## 🎯 Testing SDK
+
+You can test the SDK [ ➡️ here](https://github.com/MirotechTeam/miropay-c-sharp-sdk/tree/Master/Test).
+
+---
