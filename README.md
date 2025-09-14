@@ -287,6 +287,6 @@ Contact the payment provider or open an issue on the internal GitHub repo.
 ---
 ## 🎯 Testing SDK
 
-You can test the SDK [ ➡️ here](https://github.com/MirotechTeam/miropay-c-sharp-sdk/tree/Master/Test).
+You can test the SDK [ ➡️ here](https://github.com/MirotechTeam/miropay-c-sharp-sdk/tree/master/Test).
 
 ---
