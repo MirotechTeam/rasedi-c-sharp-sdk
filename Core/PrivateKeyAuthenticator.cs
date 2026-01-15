@@ -1,4 +1,4 @@
-﻿using MiroPaySDK.Core.Interfaces;
+﻿using RasediSDK.Core.Interfaces;
 using Org.BouncyCastle.Asn1.Crmf;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Parameters;
@@ -11,7 +11,7 @@ using System.Net.Sockets;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace MiroPaySDK.Core
+namespace RasediSDK.Core
 {
     public class PrivateKeyAuthenticator : IAuthenticator
     {

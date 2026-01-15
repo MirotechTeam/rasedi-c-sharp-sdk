@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace MiroPaySDK.Rest.Enums
+namespace RasediSDK.Rest.Enums
 {
     public enum GateWays
     {
@@ -16,7 +16,10 @@ namespace MiroPaySDK.Rest.Enums
         [EnumMember(Value = "FAST_PAY")]
         FAST_PAY,
 
-        [EnumMember(Value = "SUPER_QI")]
-        SUPER_QI
+        [EnumMember(Value = "NASS_WALLET")]
+        NASS_WALLET,
+
+        [EnumMember(Value = "CREDIT_CARD")]
+        CREDIT_CARD,
     }
 }

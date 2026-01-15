@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace MiroPaySDK.Contracts
+namespace RasediSDK.Contracts
 {
     // ======================== Create Payment ======================= //
     public interface ICreatePayment
@@ -29,9 +29,14 @@ namespace MiroPaySDK.Contracts
         public string Description { get; set; }
 
         /// <summary>
-        /// CallbackUrl/RedirectUrl
+        /// RedirectUrl
         /// </summary>
         public string RedirectUrl { get; set; }
+
+        /// <summary>
+        /// CallbackUrl
+        /// </summary>
+        public string CallbackUrl { get; set; }
 
         public bool CollectFeeFromCustomer { get; set; }
 
@@ -47,6 +52,7 @@ namespace MiroPaySDK.Contracts
         public string? PaidVia { get; set; }
         public string? PaidAt { get; set; }
         public string RedirectUrl { get; set; }
+        public string CallbackUrl { get; set; }
         public PaymentStatuses Status { get; set; }
         public string? PayoutAmount { get; set; }
     }
@@ -58,6 +64,7 @@ namespace MiroPaySDK.Contracts
         public string? PaidVia { get; set; }
         public string? PaidAt { get; set; }
         public string RedirectUrl { get; set; } = string.Empty;
+        public string CallbackUrl { get; set; } = string.Empty;
         public PaymentStatuses Status { get; set; }
         public string? PayoutAmount { get; set; }
     }
@@ -81,6 +88,7 @@ namespace MiroPaySDK.Contracts
         public string Title { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public string RedirectUrl { get; set; } = string.Empty;
+        public string CallbackUrl { get; set; } = string.Empty;
         public bool CollectFeeFromCustomer { get; set; }
         public bool CollectCustomerEmail { get; set; }
         public bool CollectCustomerPhoneNumber { get; set; }
