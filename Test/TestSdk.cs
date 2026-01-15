@@ -1,9 +1,9 @@
-﻿using MiroPaySDK.Contracts;
-using MiroPaySDK.Rest;
-using MiroPaySDK.Rest.Enums;
+﻿using RasediSDK.Contracts;
+using RasediSDK.Rest;
+using RasediSDK.Rest.Enums;
 using System;
 
-namespace MiroPay.Test
+namespace Rasedi.Test
 {
     static class TestSdk
     {
@@ -17,10 +17,11 @@ namespace MiroPay.Test
             var request = new CreatePayment
             {
                 Amount = "2500",
-                Gateways = new[] { GateWays.FIB, GateWays.ZAIN, GateWays.ASIA_PAY, GateWays.FAST_PAY, GateWays.SUPER_QI },
+                Gateways = new[] { GateWays.FIB, GateWays.ZAIN, GateWays.ASIA_PAY, GateWays.FAST_PAY, GateWays.NASS_WALLET, GateWays.CREDIT_CARD},
                 Title = "Title ...",
                 Description = "Description ...",
                 RedirectUrl = "https://www.yoursite.com/sample",
+                CallbackUrl = "https://www.yoursite.com/callback",
                 CollectFeeFromCustomer = true,
                 CollectCustomerEmail = true,
                 CollectCustomerPhoneNumber = true,

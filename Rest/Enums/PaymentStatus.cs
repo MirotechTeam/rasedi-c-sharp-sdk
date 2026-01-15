@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace MiroPaySDK.Rest.Enums
+namespace RasediSDK.Rest.Enums
 {
     public enum PaymentStatuses
     {

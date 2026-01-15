@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace MiroPaySDK.Core.Interfaces
+namespace RasediSDK.Core.Interfaces
 {
     public interface IAuthenticator
     {

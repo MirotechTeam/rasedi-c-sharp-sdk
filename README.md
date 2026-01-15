@@ -1,13 +1,13 @@
 ﻿# C#.NET SDK
 
-A lightweight SDK for interacting with the Miropay Payment API, built on top of [HttpClient in System.Net.Http and System.Net.Http.Headers] for fast, native HTTP calls and private key-based request signing.
+A lightweight SDK for interacting with the Rasedi Payment API, built on top of [HttpClient in System.Net.Http and System.Net.Http.Headers] for fast, native HTTP calls and private key-based request signing.
 
 ---
 
 ## 📦 Installation
 
 ```bash
-dotnet add package MiroPaySDK --version x.x.x
+dotnet add package RasediSDK --version x.x.x
 ```
 
 ---
@@ -15,16 +15,16 @@ dotnet add package MiroPaySDK --version x.x.x
 ## 🚀 Usage
 
 ```C#
-using MiroPaySDK.Rest;
-using MiroPaySDK.Rest.Enums;
-using MiroPaySDK.Rest.Interfaces;
-using MiroPaySDK.Exceptions;
+using RasediSDK.Rest;
+using RasediSDK.Rest.Enums;
+using RasediSDK.Rest.Interfaces;
+using RasediSDK.Exceptions;
 
 var client = new PaymentRestClient(privateKey, secretKey);
 ```
 
 > **Note:**  
-> The switch between sandbox and production mode will be automatically based on (test) and (live) keyword inside secretKey `(test = sandbox mode, live = production mode)`.
+> Switching between sandbox and production mode will be automatically based on (test) and (live) keyword inside secretKey `(test = sandbox mode, live = production mode)`.
 
 ---
 
@@ -70,6 +70,7 @@ Creates a new payment session.
     GateWays[] gateways; // e.g. [GateWays.ZAIN, GateWays.FIB]
     string title;
     string description;
+    string redirectUrl;
     string callbackUrl;
     bool collectFeeFromCustomer;
     bool collectCustomerEmail;
@@ -86,6 +87,7 @@ Creates a new payment session.
     string Amount,
     string? PaidVia,
     string? PaidAt,
+    string? RedirectUrl,
     string? CallbackUrl,
     PaymentStatuses Status, 
     string? PayoutAmount
@@ -106,6 +108,7 @@ await client.CreatePaymentAsync({
   gateways: [GateWays.FIB],
   title: "Test",
   description: "Desc",
+  redirectUrl: "https://google.com",
   callbackUrl: "https://google.com",
   collectFeeFromCustomer: false,
   collectCustomerEmail: false,
@@ -183,7 +186,7 @@ await client.CancelPaymentAsync("your-reference-code");
 ```
 
 ---
-#### `Using MiroPaySDK.Exception to catch different type of exception`
+#### `Using RasediSDK.Exception to catch different type of exception`
 
 The exceptions help you to catch more specific and error-related issues.
 
@@ -220,10 +223,10 @@ try
   {
       Console.WriteLine("Handle PEM format errors: " + ex.Message);
   }
-  catch (MiroPayException ex)
+  catch (RasediException ex)
   {
       // Catch any other SDK-related errors not explicitly caught above
-      Console.WriteLine("General MiroPay SDK error: " + ex.Message);
+      Console.WriteLine("General Rasedi SDK error: " + ex.Message);
   }
   catch (Exception ex)
   {
@@ -239,11 +242,11 @@ try
 ```C#
 public enum GateWays
 {
-    [EnumMember(Value = "ZAIN")]
-    ZAIN,
-
     [EnumMember(Value = "FIB")]
     FIB,
+
+    [EnumMember(Value = "ZAIN")]
+    ZAIN,
 
     [EnumMember(Value = "ASIA_PAY")]
     ASIA_PAY,
@@ -251,8 +254,11 @@ public enum GateWays
     [EnumMember(Value = "FAST_PAY")]
     FAST_PAY,
 
-    [EnumMember(Value = "SUPER_QI")]
-    SUPER_QI
+    [EnumMember(Value = "NASS_WALLET")]
+    NASS_WALLET,
+
+    [EnumMember(Value = "CREDIT_CARD")]
+    CREDIT_CARD
 }
 ```
 ```
@@ -287,6 +293,6 @@ Contact the payment provider or open an issue on the internal GitHub repo.
 ---
 ## 🎯 Testing SDK
 
-You can test the SDK [ ➡️ here](https://github.com/MirotechTeam/miropay-c-sharp-sdk/tree/master/Test).
+You can test the SDK [ ➡️ here](https://github.com/MirotechTeam/rasedi-c-sharp-sdk/blob/master/Test/TestSdk.cs).
 
 ---

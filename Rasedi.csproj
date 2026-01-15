@@ -6,14 +6,14 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 
-    <PackageId>MiroPaySDK</PackageId>
-    <Version>1.0.2</Version>
-    <Authors>MiroPay</Authors>
+    <PackageId>Rasedi_SDK</PackageId>
+    <Version>1.0.3</Version>
+    <Authors>Rasedi</Authors>
     <Company>MiroTech</Company>
-    <Description>Official C_Sharp SDK for MiroPay Payment Gateway.</Description>
-    <PackageTags>miropay sdk payment gateway</PackageTags>
+    <Description>Official C_Sharp SDK for Rasedi Payment Gateway.</Description>
+    <PackageTags>rasedi sdk payment gateway</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <RepositoryUrl>https://github.com/MirotechTeam/miropay-c-sharp-sdk</RepositoryUrl>
+    <RepositoryUrl>https://github.com/MirotechTeam/rasedi-c-sharp-sdk</RepositoryUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageIcon>icon.png</PackageIcon>
     </PropertyGroup>

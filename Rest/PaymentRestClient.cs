@@ -1,7 +1,7 @@
 ﻿using Microsoft.IdentityModel.Tokens;
 using Microsoft.VisualBasic;
-using MiroPaySDK.Contracts;
-using MiroPaySDK.Rest.Interfaces;
+using RasediSDK.Contracts;
+using RasediSDK.Rest.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -16,11 +16,11 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
-using MiroPaySDK.Core;
-using MiroPay.Rest.Constants;
-using MiroPaySDK.Exceptions;
+using RasediSDK.Core;
+using Rasedi.Rest.Constants;
+using RasediSDK.Exceptions;
 
-namespace MiroPaySDK.Rest;
+namespace RasediSDK.Rest;
 
 public class PaymentRestClient
 {
@@ -39,7 +39,7 @@ public class PaymentRestClient
 
     // ===================================== Constructor ================================== //
     /// <summary>
-    /// Creating new client instance for MiroPay Payment API,
+    /// Creating new client instance for Rasedi Payment API,
     /// Args: key = privateKey,
     /// secret = secretKey,
     /// </summary>
@@ -54,7 +54,7 @@ public class PaymentRestClient
 
         this._isTest = CheckIsTest(secret);
 
-        _baseUrl = MiroPay.Rest.Constants.Constants.ApiBaseUrl;
+        _baseUrl = Rasedi.Rest.Constants.Constants.ApiBaseUrl;
     }
 
     private static bool CheckIsTest(string Secret)
@@ -169,6 +169,7 @@ public class PaymentRestClient
             title = payload.Title,
             description = payload.Description,
             redirectUrl = payload.RedirectUrl,
+            callbackUrl = payload.CallbackUrl,
             collectFeeFromCustomer = payload.CollectFeeFromCustomer,
             collectCustomerEmail = payload.CollectCustomerEmail,
             collectCustomerPhoneNumber = payload.CollectCustomerPhoneNumber
