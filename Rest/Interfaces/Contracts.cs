@@ -79,8 +79,6 @@ namespace RasediSDK.Contracts
         public IDictionary<string, string[]> Headers { get; set; } = new Dictionary<string, string[]>();
     }
 
-    
-
     public class CreatePayment : ICreatePayment
     {
         public string Amount { get; set; } = string.Empty;
@@ -93,7 +91,6 @@ namespace RasediSDK.Contracts
         public bool CollectCustomerEmail { get; set; }
         public bool CollectCustomerPhoneNumber { get; set; }
     }
-
 
     // ========================= Get Payment ========================= //
     public interface IPaymentDetailsResponseBody
@@ -130,7 +127,6 @@ namespace RasediSDK.Contracts
         public IDictionary<string, string[]> Headers { get; set; } = new Dictionary<string, string[]>();
     }
 
-
     // ======================== Cancel Payment ======================= //
     public interface ICancelPaymentResponseBody
     {
@@ -165,7 +161,6 @@ namespace RasediSDK.Contracts
         public IDictionary<string, string[]> Headers { get; set; } = new Dictionary<string, string[]>();
     }
 
-
     // ========================= Get API Keys ======================== //
     public interface IPublicKeyResponseBody
     {
@@ -176,7 +171,6 @@ namespace RasediSDK.Contracts
     public interface IPublicKeysResponse : IHttpResponse<List<IPublicKeyResponseBody>>
     {
     }
-
 
     public class PublicKeyResponseBody : IPublicKeyResponseBody
     {
@@ -190,7 +184,6 @@ namespace RasediSDK.Contracts
         public List<IPublicKeyResponseBody>? Body { get; set; }
         public IDictionary<string, string[]> Headers { get; set; } = new Dictionary<string, string[]>();
     }
-
 
     // ============================ Verify =========================== //
     public interface IVerifyPayload
