@@ -9,7 +9,6 @@ namespace Rasedi.Rest.Constants
     public static class Constants
     {
 
-        //public const string ApiBaseUrl = "https://stage.api.rasedi.com";
-        public const string ApiBaseUrl = "https://api.pallawan.com";
+        public const string ApiBaseUrl = "https://api.rasedi.com";
     }
 }
