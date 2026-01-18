@@ -65,6 +65,7 @@ Creates a new payment session.
 **Parameters:**
 
 ```C#
+new CreatePayment
 {
     string amount; // e.g. "1000"
     GateWays[] gateways; // e.g. [GateWays.ZAIN, GateWays.FIB]
@@ -81,18 +82,7 @@ Creates a new payment session.
 **Returns:**
 
 ```C#
-<CreatePaymentResponseBody>(Body:
-  {
-    string ReferenceCode,
-    string Amount,
-    string? PaidVia,
-    string? PaidAt,
-    string? RedirectUrl,
-    string? CallbackUrl,
-    PaymentStatuses Status, 
-    string? PayoutAmount
-  });
-  return new CreatePaymentResponse
+new CreatePaymentResponse
     {
       StatusCode = response.StatusCode,
       Body = response.Body,
@@ -103,7 +93,7 @@ Creates a new payment session.
 **Example:**
 
 ```C#
-await client.CreatePaymentAsync({
+await client.CreatePaymentAsync( new CreatePayment {
   amount: "1000",
   gateways: [GateWays.FIB],
   title: "Test",
@@ -120,23 +110,12 @@ await client.CreatePaymentAsync({
 
 #### `async Task<IPaymentDetailsResponse> GetPaymentByIdAsync(string referenceCode)`
 
-Checks the status of a payment.
+Gets the details of a payment.
 
 **Returns:**
 
 ```C#
-<CreatePaymentResponseBody>(Body:
-  {
-    string ReferenceCode,
-    string Amount,
-    string? PaidVia,
-    string? PaidAt,
-    string? CallbackUrl,
-    PaymentStatuses Status, 
-    string? PayoutAmount
-
-  });
-  return new CreatePaymentResponse
+new PaymentDetailsResponse
   {
     StatusCode = response.StatusCode,
     Body = response.Body,
@@ -166,18 +145,7 @@ await client.CancelPaymentAsync("your-reference-code");
 **Returns:**
 
 ```C#
-<CancelPaymentResponseBody>(Body:
-  {
-    string ReferenceCode,
-    string Amount,
-    string? PaidVia,
-    string? PaidAt,
-    string? CallbackUrl,
-    PaymentStatuses Status, 
-    string? PayoutAmount
-
-  });
-  return new CreatePaymentResponse
+new CancelPaymentResponse
   {
     StatusCode = response.StatusCode,
     Body = response.Body,

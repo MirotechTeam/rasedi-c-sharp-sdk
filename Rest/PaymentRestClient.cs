@@ -151,9 +151,9 @@ public class PaymentRestClient
 
         return new PaymentDetailsResponse
         {
-            StatusCode = 200,
+            StatusCode = response.StatusCode,
             Body = response.Body,
-            Headers = { }
+            Headers = response.Headers
         };
     }
 
