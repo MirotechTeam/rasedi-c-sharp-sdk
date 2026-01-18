@@ -13,8 +13,6 @@ namespace RasediSDK.Rest.Interfaces
         int StatusCode { get; set; }
     }
 
-
-
     public class HttpResponse<T> : IHttpResponse<T>
     {
         public int StatusCode { get; set; }
