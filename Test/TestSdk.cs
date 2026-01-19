@@ -1,6 +1,7 @@
-﻿using RasediSDK.Contracts;
-using RasediSDK.Rest;
+﻿using RasediSDK.Rest;
 using RasediSDK.Rest.Enums;
+using RasediSDK.Rest.Interfaces;
+using RasediSDK.Exceptions;
 using System;
 
 namespace Rasedi.Test
