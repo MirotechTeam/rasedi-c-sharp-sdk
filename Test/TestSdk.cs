@@ -3,6 +3,8 @@ using RasediSDK.Rest.Enums;
 using RasediSDK.Rest.Interfaces;
 using RasediSDK.Exceptions;
 using System;
+using System.Runtime.InteropServices;
+using RasediSDK.Contracts;
 
 namespace Rasedi.Test
 {
