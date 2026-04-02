@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace RasediSDK.Contracts
@@ -186,6 +186,7 @@ namespace RasediSDK.Contracts
     }
 
     // ============================ Verify =========================== //
+    [Obsolete("Use status checking or webhooks instead.")]
     public interface IVerifyPayload
     {
         public string KeyId { get; set; }
@@ -193,6 +194,7 @@ namespace RasediSDK.Contracts
         public string? Content { get; set; }
     }
 
+    [Obsolete("Use status checking instead.")]
     public interface IVerifyPaymentResponseBody
     {
         public string ReferenceCode { get; set; }
@@ -200,20 +202,23 @@ namespace RasediSDK.Contracts
         public string? PayoutAmount { get; set; }
     }
 
+    [Obsolete("Use status checking instead.")]
     public interface IVerifyPaymentResponse : IHttpResponse<IVerifyPaymentResponseBody>
     {
     }
 
+    [Obsolete("Use status checking or webhooks instead.")]
     public class VerifyPayload : IVerifyPayload
     {
-        public string KeyId { get; set; }
+        public string KeyId { get; set; } = string.Empty;
 
         public string? Content { get; set; }
     }
 
+    [Obsolete("Use status checking instead.")]
     public class VerifyPaymentResponseBody : IVerifyPaymentResponseBody
     {
-        public string ReferenceCode { get; set; }
+        public string ReferenceCode { get; set; } = string.Empty;
         public PaymentStatuses Status { get; set; }
         public string? PayoutAmount { get; set; }
     }

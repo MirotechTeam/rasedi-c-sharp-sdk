@@ -1,4 +1,4 @@
-﻿using Microsoft.IdentityModel.Tokens;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.VisualBasic;
 using RasediSDK.Contracts;
 using RasediSDK.Rest.Interfaces;
@@ -200,6 +200,7 @@ public class PaymentRestClient
     }
 
     //** Verify
+    [Obsolete("Use status checking or webhooks instead.")]
     public async Task<IVerifyPaymentResponse> VerifyAsync(IVerifyPayload payload)
     {
         if (_publicKeys.Count == 0)
