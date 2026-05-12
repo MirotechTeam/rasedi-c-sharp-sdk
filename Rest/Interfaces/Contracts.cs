@@ -93,6 +93,33 @@ namespace RasediSDK.Contracts
     }
 
     // ========================= Get Payment ========================= //
+
+    public interface IPaymentHistoryItem
+    {
+        public string ReferenceCode { get; set; }
+        public PaymentStatuses Status { get; set; }
+        public string Amount { get; set; }
+        public string? Gateway { get; set; }
+        public string? PaidAt { get; set; }
+        public string? PayoutAmount { get; set; }
+        public string? ServiceFeeAmount { get; set; }
+        public string? GatewayFeeAmount { get; set; }
+        public string? ExpiresAt { get; set; }
+    }
+
+    public class PaymentHistoryItem : IPaymentHistoryItem
+    {
+        public required string ReferenceCode { get; set; }
+        public PaymentStatuses Status { get; set; }
+        public required string Amount { get; set; }
+        public string? Gateway { get; set; }
+        public string? PaidAt { get; set; }
+        public string? PayoutAmount { get; set; }
+        public string? ServiceFeeAmount { get; set; }
+        public string? GatewayFeeAmount { get; set; }
+        public string? ExpiresAt { get; set; }
+    }
+
     public interface IPaymentDetailsResponseBody
     {
         public string ReferenceCode { get; set; }
@@ -102,6 +129,7 @@ namespace RasediSDK.Contracts
         public string CallbackUrl { get; set; }
         public PaymentStatuses Status { get; set; }
         public string? PayoutAmount { get; set; }
+        public IList<PaymentHistoryItem>? History { get; set; }
     }
 
     public interface IPaymentDetailsResponse : IHttpResponse<IPaymentDetailsResponseBody>
@@ -117,6 +145,7 @@ namespace RasediSDK.Contracts
         public  string? CallbackUrl { get; set; }
         public PaymentStatuses Status { get; set; }
         public string? PayoutAmount { get; set; }
+        public IList<PaymentHistoryItem>? History { get; set; }
     }
 
 
