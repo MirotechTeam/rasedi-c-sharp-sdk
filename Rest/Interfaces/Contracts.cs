@@ -93,7 +93,6 @@ namespace RasediSDK.Contracts
     }
 
     // ========================= Get Payment ========================= //
-
     public interface IPaymentHistoryItem
     {
         public string ReferenceCode { get; set; }
